@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+
+{% block title %} Ошибка 404 {% endblock %}
+{% load static %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<body class="body">
+
+        <main class="main container">
+            <div class="single-card" data-id="{{ recipe.id }}">
+                <div class="single-card__info">
+                    <div class="single-card__header-info">
+                        <h1 class="single-card__title">Page Not Found (404)</h1>
+                    </div>
+                    <div class="single-card__section">
+                        <p class=" single-card__section-text">Мы не нашли эту страничку, но нашли котика</p>
+                            <img src="{% static 'images/cat_404.jpg' %}" alt="нет, даже котика не нашли :(" class="single-card__image">
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+</body>
+
+{%endblock%}

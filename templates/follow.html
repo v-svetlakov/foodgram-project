@@ -1,0 +1,70 @@
+<!-- Страничка авторов, на которых подписан текущий пользователь -->
+
+{% extends 'base.html' %} 
+
+{% block title %} {{ headline }} {% endblock %}
+{% load static %}
+{% block static %} 
+    <link rel="stylesheet" href="{% static 'pages/myFollow.css' %}">
+{% endblock %}
+
+{% load user_filters %}
+{% block content %}
+{% csrf_token %}
+
+    <div class="main__header">
+        <h1 class="main__title">{{ headline }}</h1>
+    </div>
+        <div class="card-list">
+            {% for follow in page %}
+                <div class="card-user" data-id="{{ follow.author.id }}" second-id="{{ follow.author.id }}" >
+                    <div class="card-user__header">
+                        <h2 class="card-user__title">{{ follow.author.username }}</h2>
+                    </div>
+                    <div class="card-user__body">
+                        <ul class="card-user__items">
+                            {% for recipe in follow.author.recipes.all|slice:"3" %}
+                                    <li class="card-user__item">
+                                        <div class="recipe">
+                                            <a href="{% url 'recipe' recipe.id %}" class="link" target="_blank">
+                                                <img src="{{ recipe.image.url }}" alt="{{ recipe.name }}" class="recipe__image"></a>
+                                            <h3 class="recipe__title">{{ recipe.name }}</h3>
+                                            <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cooking_time }} </p>
+                                        </div>
+                                    </li>
+                            {% endfor %}
+
+                            {% with follow.author.recipes.count as count %}
+                                {% if count > 3 %}
+                                    <a href="{% url 'profile' follow.author.username %}" class="card-user__link link">
+                                        Еще {{ count|add:'-3' }} {{ 'рецепт'|format_count:follow.author.recipes.count }}...</a>
+                                {% endif %}
+                            {% endwith %}
+                        </ul>
+                    </div>
+                    <div class="card-user__footer">
+                        <!-- пользователь уже в "моих подписках", поэтому не проверяю, в подписках ли автор :) -->
+                        <button class="button button_style_light-blue button_size_auto" name="subscribe">Отписаться</button>
+                    </div>
+                </div> 
+            {% endfor %}
+        </div>
+
+    {% if page.has_other_pages %}
+        {% include 'paginator.html' with items=page paginator=paginator%}
+    {% endif %}
+
+    <script src="{% static 'js/config/config.js' %}"></script>
+
+    <script src="{% static 'js/components/Purchpurachases.js' %}"></script>
+    <script src="{% static 'js/components/Favorites.js' %}"></script>
+    <script src="{% static 'js/components/Subscribe.js' %}"></script>
+    
+    <script src="{% static 'js/components/MainCards.js' %}"></script>
+    <script src="{% static 'js/components/SingleCard.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
+    <script src="{% static 'js/components/MyFollow.js' %}"></script>
+    
+    <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'myFollow.js' %}"></script>
+{% endblock %}

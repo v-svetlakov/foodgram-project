@@ -1,0 +1,28 @@
+{% extends 'base.html' %} 
+
+{% block title %} {{ headline }} {% endblock %}
+{% load static %}
+    {% block static %}
+        <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+    {% endblock %}
+
+{% block content %}
+
+    <div class="single-card" data-id="{{ recipe.id }}">
+        <div class="single-card__info">
+            <div class="single-card__header-info">
+                <h1 class="single-card__title">{{ headline }}</h1>
+            </div>
+            <div class="single-card__section">
+                <p class=" single-card__section-text">{{ text }}</p>
+
+                {% if jam %}
+                    <img src="{% static 'images/me_and_jam.jpg' %}" alt=" " class="single-card__image">
+                {% else %}
+                    <img src="{% static 'images/tech.jpg' %}" alt=" " class="single-card__image">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

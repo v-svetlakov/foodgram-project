@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+
+{% block title %} Ошибка 500 {% endblock %}
+{% load static %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="single-card" data-id="{{ recipe.id }}">
+        <div class="single-card__info">
+            <div class="single-card__header-info">
+                <h1 class="single-card__title">Server Error (500)</h1>
+            </div>
+            <div class="single-card__section">
+                <p class=" single-card__section-text">Что-то пошло не так :( </p>
+                    <img src="{% static 'images/cat_500.jpg' %}" alt="Тут была картинка с котиком, но с ней тоже что-то пошло не так" class="single-card__image">
+            </div>
+        </div>
+    </div>
+
+{%endblock%}

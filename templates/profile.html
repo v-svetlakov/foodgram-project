@@ -1,0 +1,76 @@
+<!-- Профиль автора со всеми его рецептами  -->
+
+{% extends 'base.html' %} 
+
+{% block title %} {{ headline }} {% endblock %}
+{% csrf_token %}
+{% load static %}
+{% block static %} 
+    <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+{% endblock %}
+
+{% load user_filters %}
+{% block content %}
+
+        <div class="main__header">
+            <h1 class="main__title">{{ headline }}</h1>
+            <ul class="tags">
+                {% with filter_values=request.GET|get_filter_values %}
+                    {% for tag in all_tags %}
+                        <li class="tags__item">
+                            <a
+                                id="{{ tag.name }}"
+                                class="tags__checkbox tags__checkbox_style_{{ tag.style}} 
+                                {% if tag.slug in filter_values %}tags__checkbox_active{% endif %}"
+                                href="{{ request.path }}?{{ request|get_filter_link:tag }}">
+                            </a>
+                            <span class="tags__label">{{ tag.name }}</span>
+                        </li>
+                    {% endfor %}
+                {% endwith %}
+            </ul>
+        </div>
+
+        {% if user.is_authenticated %} 
+            {% if profile.id != user.id %}
+                <div class="author-subscribe" data-author="{{ profile.id }}">
+                    
+                    {% if profile|is_author_followed:user %}
+                    <p style="padding: 0 0 2em 0;">
+                        <button class="button button_style_light-blue button_size_auto" name="subscribe" >Отписаться от автора</button></p>
+                    {% else %}
+                        <p style="padding: 0 0 2em 0;">
+                            <button class="button button_style_light-blue button_size_auto" name="subscribe" data-out>Подписаться на автора</button></p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="card-list">
+            {% for recipe in page %}
+                {% include 'recipe_item.html' with recipe=recipe favorite_list=favorite_list shoping_list=shoping_list %}
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% if page.has_other_pages %}
+    {% include 'paginator.html' with items=page paginator=paginator%}
+{% endif %}
+
+
+<script src="{% static 'js/config/config.js' %}"></script>
+
+<script src="{% static 'js/components/MainCards.js' %}"></script>
+
+<script src="{% static 'js/components/Purchpurachases.js' %}"></script>
+<script src="{% static 'js/components/Favorites.js' %}"></script>
+<script src="{% static 'js/components/Subscribe.js' %}"></script>
+
+<script src="{% static 'js/components/AuthorRecipe.js' %}"></script>
+<script src="{% static 'js/components/Header.js' %}"></script>
+
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'authorRecipe.js' %}"></script>
+
+{% endblock %}

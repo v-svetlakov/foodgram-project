@@ -1,0 +1,48 @@
+<!-- Страница со списком покупок -->
+
+{% extends 'base.html' %} 
+
+{% block title %} {{ headline }} {% endblock %}
+{% csrf_token %}
+{% load static %}
+{% block static %} 
+    <link rel="stylesheet" href="{% static 'pages/shopList.css' %}">
+{% endblock %}
+
+{% load user_filters %}
+{% block content %}
+
+
+    <div class="main__header">
+        <h1 class="main__title">{{ headline }}</h1>
+    </div>
+    <div class="card-list card-list_column">
+        <ul class="shopping-list">
+
+            {% for toShop in recipes_to_shop %}
+
+                <li class="shopping-list__item" data-id="{{ toShop.recipe.id }}">
+                    <div class="recipe recipe_reverse">
+                        <a href="{% url 'recipe' toShop.recipe.id %}" class="link" target="_blank">
+                            <img src="{{ toShop.recipe.image.url }}" alt="какой-то текст" class="recipe__image recipe__image_big"></a>
+                        <h3 class="recipe__title">{{ toShop.recipe.name }}</h3>
+                        <p class="recipe__text"><span class="icon-time"></span>{{ toShop.recipe.cooking_time }}</p>
+                    </div>
+                    <!-- зачем тут ссылка я не знаю, тут же js настроен и работает -->
+                    <a href="#" class="shopping-list__button link">Удалить</a>
+                </li>
+
+            {% endfor %}
+
+        </ul>
+        <a class="button button_style_light-blue" href="{% url 'print_shoping_list' %}">Скачать список</a>
+
+
+<script src="{% static 'js/config/config.js' %}"></script>
+
+<script src="{% static 'js/components/Header.js' %}"></script>
+<script src="{% static 'js/components/ShopList.js' %}"></script>
+<script src="{% static 'js/api/Api.js' %}"></script>
+<script src="{% static 'shopList.js' %}"></script>
+
+{% endblock %}
