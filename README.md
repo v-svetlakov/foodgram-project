@@ -25,3 +25,5 @@ manage.py migrate recipes 0003
 ## Авторы
 
 * **Vladimir Svetlakov** - *Initial work* - [svvladimir-ru](https://github.com/svvladimir-ru)
+
+[foodgram](//http://www.foogramtest.ml/)
