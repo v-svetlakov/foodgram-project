@@ -42,4 +42,4 @@ $ sudo docker exec -it <CONTAINER ID> python manage.py loaddata fixtures.json
 ## Авторы
 
 * **Vladimir Svetlakov** - *Initial work* - [svvladimir-ru](https://github.com/svvladimir-ru)
-[foodgram](http://www.foogramtest.ml/)
+*[foodgram](http://www.foogramtest.ml/)
